@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      #file-label {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      #file-label:hover {
+        background-color: #2980b9;
+      }
+
+      #accept-button {
+        padding: 10px 20px;
+        background-color: #27ae60;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+      }
+
+      #accept-button:hover {
+        background-color: #219651;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Subir Imagen</h1>
+    <form action="/predecir/" method="post">
+      {% csrf_token %}
+      <input type="file" id="file-input" accept="image/*" name="imagen" />
+      <label for="file-input" id="file-label">Seleccionar imagen</label>
+      <br />
+      <button id="accept-button">Aceptar</button>
+    </form>
+
+    <script>
+      const fileInput = document.getElementById("file-input");
+      const fileLabel = document.getElementById("file-label");
+      const acceptButton = document.getElementById("accept-button");
+      let selectedFilePath = "";
+
+      fileInput.addEventListener("change", (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+          selectedFilePath = URL.createObjectURL(selectedFile);
+          console.log("Imagen seleccionada:", selectedFilePath);
+        }
+      });
+
+      acceptButton.addEventListener("click", () => {
+        // Aquí puedes agregar la lógica para procesar la imagen después de hacer clic en "Aceptar"
+        if (selectedFilePath) {
+          console.log("Ruta de la imagen seleccionada:", selectedFilePath.text);
+          // Puedes enviar la imagen al servidor aquí, utilizando AJAX u otras técnicas
+          // El atributo "name" del campo de archivo (input) debe ser igual al nombre esperado en el lado del servidor (en este caso, "imagen")
+          document.querySelector("form").submit();
+        } else {
+          console.log("No se ha seleccionado ninguna imagen.");
+        }
+      });
+    </script>
+  </body>
+</html>
